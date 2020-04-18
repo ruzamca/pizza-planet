@@ -26,6 +26,10 @@
   </header>
 </template>
 
+<script lang="ts">
+export default {};
+</script>
+
 <style scoped lang="scss">
 .header_logo {
   background-image: linear-gradient(
@@ -47,7 +51,6 @@
 
   h1 {
     font-size: 1.3em;
-    color: #393939;
   }
 }
 
@@ -71,7 +74,7 @@ nav {
   }
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 768px) {
   .header_logo {
     img {
       max-width: 20vw;
@@ -79,7 +82,3 @@ nav {
   }
 }
 </style>
-
-<script lang="ts">
-export default {};
-</script>

@@ -9,11 +9,17 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: "Home"
+};
+</script>
+
 <style scoped lang="scss">
 .background {
   background: url("../assets/img/dough.jpg") center;
   background-size: cover;
-  height: 30vw;
+  height: 20vw;
   display: flex;
   align-items: center;
 
@@ -26,11 +32,11 @@
     padding: 5px;
     background: #f1e6da;
     opacity: 0.8;
-    color: #393939;
 
     h2,
     h3 {
       margin: 2%;
+      font-weight: 500;
     }
 
     img {
@@ -46,10 +52,51 @@
     }
   }
 }
-</style>
 
-<script lang="ts">
-export default {
-  name: "Home"
-};
-</script>
+@media screen and (max-width: 768px) {
+  .background {
+    height: 25vw;
+
+    .background-overlay {
+      width: 75%;
+
+      h2 {
+        font-size: 20px;
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .background {
+    height: 30vw;
+
+    .background-overlay {
+
+      h2 {
+        font-size: 18px;
+      }
+
+      h3 {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .background {
+    height: 35vw;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .background {
+    height: 40vw;
+  }
+}
+</style>
