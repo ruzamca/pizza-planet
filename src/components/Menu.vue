@@ -1,18 +1,41 @@
 <template>
   <div class="menu-wrapper">
     <!-- menu -->
-    <h3 class="menu-title">~ Authentic handmade pizza ~</h3>
     <div class="menu-content">
-      <div class="dish-item" v-for="item in getMenuItems" :key="item">
-        <div class="dish-name">{{item.name}}</div>
+      <h3 class="menu-title">~ Authentic handmade pizza ~</h3>
+      <div class="dish-item" v-for="(item, index) in getMenuItems" :key="index">
+        <div class="dish-name">- {{item.name}} -</div>
         <div class="dish-description">{{item.description}}</div>
-        <div class="dish-option" v-for="option in item.options" :key="option">
+        <div class="dish-option" v-for="(option, index) in item.options" :key="index">
           <div class="dish-size">{{option.size}}"</div>
           <div class="dish-add-wrapper">
             <div class="dish-price">{{option.price}}€</div>
-            <button type="button" class="add-btn">+</button>
+            <button type="button" class="green-btn" @click="addToBasket(item, option)">+</button>
           </div>
         </div>
+      </div>
+    </div>
+    <!-- basket -->
+    <div class="basket-content">
+      <h3 class="basket-title">~ Basket ~</h3>
+      <div class="basket-items">
+        <div class="basket-item" v-for="(item,index) in basket" :key="index">
+          <div class="quantity-info">
+            <button type="button" class="green-btn" @click="decreaseItem(item)">-</button>
+            <div class="item-quantity">{{item.quantity}}</div>
+            <button type="button" class="green-btn" @click="increaseItem(item)">+</button>
+          </div>
+          <div class="item-info">
+            <div class="item-name">{{item.name}} -</div>
+            <div class="item-size">{{item.size}}" -</div>
+            <div class="item-price">{{item.price}}€</div>
+          </div>
+        </div>
+      </div>
+      <div class="total-order">
+          <div class="text">Total order: </div>
+          <div class="order-price">{{this.getTotalOrder()}}€
+          </div>
       </div>
     </div>
   </div>
@@ -22,6 +45,7 @@
 export default {
   data() {
     return {
+      basket: [],
       getMenuItems: [
         {
           name: "Margherita",
@@ -69,25 +93,78 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    async addToBasket(item, option) {
+      const pizzaExists = await this.basket.find(
+        pizza => pizza.name === item.name && pizza.size === option.size
+      );
+
+      if (pizzaExists) {
+        pizzaExists.quantity++;
+        return;
+      }
+      this.basket.push({
+        name: item.name,
+        price: option.price,
+        size: option.size,
+        quantity: 1
+      });
+    },
+    async increaseItem(item) {
+        const pizzaInBasket = await this.basket.find(
+            pizza => pizza.name === item.name && pizza.size === item.size
+        );
+        pizzaInBasket.quantity++;
+    },
+    async decreaseItem(item) {
+        console.log(item);
+        const pizzaInBasket = await this.basket.find(
+            pizza => pizza.name === item.name && pizza.size === item.size
+        );
+        if (pizzaInBasket && pizzaInBasket.quantity > 1) {
+            pizzaInBasket.quantity--;
+        } else {
+            //quita la pizza del array
+        }
+    },
+    getTotalOrder () {
+        let total = 0;
+        for (let x = 0 ; x < this.basket.length ; x++) {
+            total += this.basket[x].quantity * this.basket[x].price;
+        }
+        return total.toFixed(2);
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
 .menu-wrapper {
-  background: #f1e6da;
-  padding: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 65%;
-  border-radius: 4px;
-  margin-right: 8px;
 
-  .menu-title {
-    font-weight: bold;
+  .green-btn {
+    background: green;
+    color: white;
+    border: 0;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    cursor: pointer;
   }
+
   .menu-content {
+    background: #f1e6da;
+    margin: 8px 4px 8px 8px;
+    border-radius: 4px;
+    width: 65%;
+    padding: 16px;
+    .menu-title {
+      text-align: center;
+      font-weight: bold;
+    }
     .dish-item {
       .dish-name {
         font-weight: 500;
@@ -111,27 +188,74 @@ export default {
           .dish-price {
             margin-right: 8px;
           }
-          .add-btn {
-            background: green;
-            color: white;
-            border: 0;
-            border-radius: 4px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .basket-content {
+    background: #f1e6da;
+    margin: 8px 8px 8px 4px;
+    width: 35%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .basket-title {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .basket-items {
+      .basket-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 14px;
+        .quantity-info {
+          display: flex;
+          align-items: center;
+
+          .item-quantity {
+            margin: 0 8px;
+          }
+        }
+
+        .item-info {
+          display: flex;
+          margin-left: 16px;
+          .item-name {
+            margin-right: 8px;
+          }
+          .item-size {
+            margin-right: 8px;
+          }
+          .item-price {
           }
         }
       }
+    }
+
+    .total-order {
+        display: flex;
+        .text { 
+            margin-right: 8px;
+        }
     }
   }
 }
 
 @media screen and (max-width: 768px) {
   .menu-wrapper {
-    width: 100%;
-    padding: 0;
+    flex-direction: column;
+    .menu-content {
+      width: 100%;
+    }
+
+    .basket-content {
+      width: 100%;
+    }
   }
 }
 </style>
