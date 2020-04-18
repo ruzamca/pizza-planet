@@ -33,9 +33,8 @@
         </div>
       </div>
       <div class="total-order">
-          <div class="text">Total order: </div>
-          <div class="order-price">{{this.getTotalOrder()}}€
-          </div>
+        <div class="text">Total order:</div>
+        <div class="order-price">{{this.getTotalOrder()}}€</div>
       </div>
     </div>
   </div>
@@ -112,28 +111,28 @@ export default {
       });
     },
     async increaseItem(item) {
-        const pizzaInBasket = await this.basket.find(
-            pizza => pizza.name === item.name && pizza.size === item.size
-        );
-        pizzaInBasket.quantity++;
+      const pizzaInBasket = await this.basket.find(
+        pizza => pizza.name === item.name && pizza.size === item.size
+      );
+      pizzaInBasket.quantity++;
     },
     async decreaseItem(item) {
-        console.log(item);
-        const pizzaInBasket = await this.basket.find(
-            pizza => pizza.name === item.name && pizza.size === item.size
-        );
-        if (pizzaInBasket && pizzaInBasket.quantity > 1) {
-            pizzaInBasket.quantity--;
-        } else {
-            //quita la pizza del array
-        }
+      const pizzaInBasket = await this.basket.find(
+        pizza => pizza.name === item.name && pizza.size === item.size
+      );
+      if (pizzaInBasket && pizzaInBasket.quantity > 1) {
+        pizzaInBasket.quantity--;
+      } else {
+        let index = this.basket.indexOf(pizzaInBasket);
+        this.basket.splice(index, 1);
+      }
     },
-    getTotalOrder () {
-        let total = 0;
-        for (let x = 0 ; x < this.basket.length ; x++) {
-            total += this.basket[x].quantity * this.basket[x].price;
-        }
-        return total.toFixed(2);
+    getTotalOrder() {
+      let total = 0;
+      for (let x = 0; x < this.basket.length; x++) {
+        total += this.basket[x].quantity * this.basket[x].price;
+      }
+      return total.toFixed(2);
     }
   }
 };
@@ -238,10 +237,10 @@ export default {
     }
 
     .total-order {
-        display: flex;
-        .text { 
-            margin-right: 8px;
-        }
+      display: flex;
+      .text {
+        margin-right: 8px;
+      }
     }
   }
 }
