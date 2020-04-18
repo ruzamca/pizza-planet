@@ -18,23 +18,26 @@
     <!-- basket -->
     <div class="basket-content">
       <h3 class="basket-title">~ Basket ~</h3>
-      <div class="basket-items">
+      <div class="basket-items" v-if="basket.length > 0">
         <div class="basket-item" v-for="(item,index) in basket" :key="index">
           <div class="quantity-info">
-            <button type="button" class="green-btn" @click="decreaseItem(item)">-</button>
+            <button type="button" class="green-btn" @click="decreaseQuantity(item)">-</button>
             <div class="item-quantity">{{item.quantity}}</div>
-            <button type="button" class="green-btn" @click="increaseItem(item)">+</button>
+            <button type="button" class="green-btn" @click="increaseQuantity(item)">+</button>
           </div>
           <div class="item-info">
             <div class="item-name">{{item.name}} -</div>
             <div class="item-size">{{item.size}}" -</div>
-            <div class="item-price">{{item.price}}€</div>
+            <div class="item-price">{{(item.price * item.quantity).toFixed(2)}}€</div>
           </div>
         </div>
+        <div class="total-order">
+          <div class="text">Total order:</div>
+          <div class="order-price">{{this.getTotalOrder()}}€</div>
+        </div>
       </div>
-      <div class="total-order">
-        <div class="text">Total order:</div>
-        <div class="order-price">{{this.getTotalOrder()}}€</div>
+      <div class="basket-empty" v-else>
+        <div>{{basketText}}</div>
       </div>
     </div>
   </div>
@@ -45,6 +48,7 @@ export default {
   data() {
     return {
       basket: [],
+      basketText: "Your basket is empty",
       getMenuItems: [
         {
           name: "Margherita",
@@ -110,21 +114,17 @@ export default {
         quantity: 1
       });
     },
-    async increaseItem(item) {
-      const pizzaInBasket = await this.basket.find(
-        pizza => pizza.name === item.name && pizza.size === item.size
-      );
-      pizzaInBasket.quantity++;
+    removeFromBasket(item) {
+      this.basket.splice(this.basket.indexOf(item), 1);
     },
-    async decreaseItem(item) {
-      const pizzaInBasket = await this.basket.find(
-        pizza => pizza.name === item.name && pizza.size === item.size
-      );
-      if (pizzaInBasket && pizzaInBasket.quantity > 1) {
-        pizzaInBasket.quantity--;
+    increaseQuantity(item) {
+      item.quantity++;
+    },
+    decreaseQuantity(item) {
+      if (item.quantity > 1) {
+        item.quantity--;
       } else {
-        let index = this.basket.indexOf(pizzaInBasket);
-        this.basket.splice(index, 1);
+        this.removeFromBasket(item);
       }
     },
     getTotalOrder() {
@@ -158,7 +158,7 @@ export default {
     background: #f1e6da;
     margin: 8px 4px 8px 8px;
     border-radius: 4px;
-    width: 65%;
+    width: 65vw;
     padding: 16px;
     .menu-title {
       text-align: center;
@@ -195,7 +195,7 @@ export default {
   .basket-content {
     background: #f1e6da;
     margin: 8px 8px 8px 4px;
-    width: 35%;
+    width: 35vw;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -234,12 +234,12 @@ export default {
           }
         }
       }
-    }
 
-    .total-order {
-      display: flex;
-      .text {
-        margin-right: 8px;
+      .total-order {
+        display: flex;
+        .text {
+          margin-right: 8px;
+        }
       }
     }
   }
@@ -249,11 +249,11 @@ export default {
   .menu-wrapper {
     flex-direction: column;
     .menu-content {
-      width: 100%;
+      width: 100vw;
     }
 
     .basket-content {
-      width: 100%;
+      width: 100vw;
     }
   }
 }
