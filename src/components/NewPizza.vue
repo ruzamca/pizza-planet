@@ -59,7 +59,7 @@ export default {
   },
   methods: {
       add() {
-          dbMenuRef.add(this.newPizza);
+          dbMenuRef.add(this.newPizza); 
       } 
   }
 };
