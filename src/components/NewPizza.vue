@@ -4,7 +4,7 @@
       <h3>Add new pizza:</h3>
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" v-model="newPizza.name"/>
+        <input type="text" id="name" v-model="newPizza.name" />
       </div>
       <div class="form-group">
         <label for="description">Description</label>
@@ -13,20 +13,20 @@
       <p class="option-title">Option 1</p>
       <div class="form-group">
         <label for="size1">Size (")</label>
-        <input type="text" id="size1" v-model="newPizza.options[0].size"/>
+        <input type="text" id="size1" v-model="newPizza.options[0].size" />
       </div>
       <div class="form-group">
         <label for="price1">Price</label>
-        <input type="text" id="price1" v-model="newPizza.options[0].price"/>
+        <input type="text" id="price1" v-model="newPizza.options[0].price" />
       </div>
       <p class="option-title">Option 2</p>
       <div class="form-group">
         <label for="size2">Size (")</label>
-        <input type="text" id="size2" v-model="newPizza.options[1].size"/>
+        <input type="text" id="size2" v-model="newPizza.options[1].size" />
       </div>
       <div class="form-group">
         <label for="price2">Price</label>
-        <input type="text" id="price2" v-model="newPizza.options[1].price"/>
+        <input type="text" id="price2" v-model="newPizza.options[1].price" />
       </div>
       <button type="button" class="green-btn" @click="add">Add</button>
     </form>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { dbMenuRef } from '../firebase';  
+import { dbMenuRef } from "../firebase";
 
 export default {
   name: "newPizza",
@@ -58,9 +58,9 @@ export default {
     };
   },
   methods: {
-      add() {
-          dbMenuRef.add(this.newPizza); 
-      } 
+    add() {
+      dbMenuRef.add(this.newPizza);
+    }
   }
 };
 </script>

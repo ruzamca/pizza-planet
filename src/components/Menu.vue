@@ -32,18 +32,23 @@
           </div>
         </div>
         <div class="total-order">
-          <div class="text">Total order:</div>
-          <div class="order-price">{{this.getTotalOrder()}}€</div>
+          <div class="text">
+            Total order:
+            <span>{{this.getTotalOrder()}}€</span>
+          </div>
+          <button type="button" class="green-btn" @click="addNewOrder">Place order</button>
         </div>
       </div>
       <div class="basket-empty" v-else>
         <div>{{basketText}}</div>
+        {{this.$store.state.orders}}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -52,9 +57,7 @@ export default {
     };
   },
   computed: {
-    getMenuItems () {
-      return this.$store.state.menuItems;
-    }
+    ...mapGetters(["getMenuItems"])
   },
   methods: {
     async addToBasket(item, option) {
@@ -92,6 +95,11 @@ export default {
         total += this.basket[x].quantity * this.basket[x].price;
       }
       return total.toFixed(2);
+    },
+    addNewOrder() {
+      this.$store.commit("addOrder", this.basket);
+      this.basket = [];
+      this.basketText = "Thank you, your order has been placed";
     }
   }
 };
@@ -196,8 +204,12 @@ export default {
 
       .total-order {
         display: flex;
+        flex-direction: column;
         .text {
-          margin-right: 8px;
+          margin: 16px 0 8px 0;
+        }
+        button {
+          display: block;
         }
       }
     }

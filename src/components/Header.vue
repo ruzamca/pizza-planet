@@ -38,7 +38,7 @@
 
 <script lang="ts">
 export default {
-  name: 'appHeader'
+  name: "appHeader"
 };
 </script>
 

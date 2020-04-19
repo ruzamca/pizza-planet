@@ -3,11 +3,11 @@
     <form>
       <div>
         <label for="email">Email address</label>
-        <input type="email" id="email" placeholder="Enter email" v-model="email"/>
+        <input type="email" id="email" placeholder="Enter email" v-model="email" />
       </div>
       <div>
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Password" v-model="password"/>
+        <input type="password" id="password" placeholder="Password" v-model="password" />
       </div>
       <button type="button" class="green-btn" @click.prevent="signIn">Sign in</button>
     </form>
@@ -15,30 +15,23 @@
 </template>
 
 <script>
-import { firebaseAuth } from '../firebase.js';
+import { store } from "../store/store";
 export default {
   name: "login",
-  data () {
-      return {
-          email: '',
-          password: ''
-      }
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
   },
   methods: {
-      async signIn() {
-          try {
-              await firebaseAuth.signInWithEmailAndPassword(this.email, this.password);
-          }
-          catch (error) {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              if (errorCode === 'aut/wrong-password') {
-                  alert('Wrong password');
-              } else {
-                  alert(errorMessage);
-              }
-          }
-      }
+    signIn() {
+      const user = {
+        email: this.email,
+        password: this.password
+      };
+      store.dispatch("signIn", user);
+    }
   }
 };
 </script>

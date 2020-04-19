@@ -1,8 +1,8 @@
 <template>
   <div class="admin-wrapper">
     <div class="current-user-wrapper">
-      <div>Logged in as:</div>
-      <button type="button" class="btn-red" @click.prevent="signOut">Sign out</button>
+      <div>Logged in as: {{ currentUser }}</div>
+      <button type="button" v-if="currentUser" class="btn-red" @click.prevent="signOut">Sign out</button>
     </div>
     <NewPizza />
     <div class="menu-wrapper">
@@ -19,15 +19,15 @@
       </div>
     </div>
     <div class="order-wrapper">
-      <h3>Current orders ({{orders.length}})</h3>
-      <div class="menu-table">
+      <h3 :style="numberOfOrders > 0 ? '' : 'margin-bottom: 0;'">Current orders ({{numberOfOrders}})</h3>
+      <div class="menu-table" v-if="numberOfOrders > 0">
         <div class="table-title-row">
           <div class="title">Order</div>
           <div class="title">Size</div>
           <div class="title">Qantity</div>
           <div class="title">Price</div>
         </div>
-        <div class="table-item-row" v-for="(order,index) in orders" :key="index">
+        <div class="table-item-row" v-for="(order,index) in getOrders" :key="index">
           <div class="item-order">
             <div>Order number: {{order.id}}</div>
             <button class="red-btn">&times;</button>
@@ -48,7 +48,9 @@
 <script>
 import NewPizza from "@/components/NewPizza.vue";
 import Login from "@/components/Login.vue";
-import { firebaseAuth } from "../firebase.js";
+import { store } from "../store/store";
+import { mapGetters } from "vuex";
+
 export default {
   name: "admin",
   components: {
@@ -57,37 +59,7 @@ export default {
   },
   data() {
     return {
-      name: "Ruben",
-      orders: [
-        {
-          id: 1,
-          items: [
-            {
-              name: "Margarita",
-              size: "9",
-              quantity: 2,
-              price: 6.99
-            },
-            {
-              name: "Pepperonit",
-              size: "12",
-              quantity: 1,
-              price: 8.99
-            }
-          ]
-        },
-        {
-          id: 2,
-          items: [
-            {
-              name: "Margarita",
-              size: "9",
-              quantity: 1,
-              price: 6.99
-            }
-          ]
-        }
-      ]
+      name: "Ruben"
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -96,17 +68,16 @@ export default {
     });
   },
   computed: {
-    getMenuItems() {
-      return this.$store.state.menuItems;
-    }
+    ...mapGetters([
+      "getMenuItems",
+      "getOrders",
+      "numberOfOrders",
+      "currentUser"
+    ])
   },
   methods: {
     async signOut() {
-      try {
-        await firebaseAuth.signOut();
-      } catch (error) {
-        alert(`Error signing out, ${error}`);
-      }
+      store.dispatch("signOut");
     }
   }
 };
