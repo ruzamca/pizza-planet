@@ -41,7 +41,6 @@
       </div>
       <div class="basket-empty" v-else>
         <div>{{basketText}}</div>
-        {{this.$store.state.orders}}
       </div>
     </div>
   </div>
