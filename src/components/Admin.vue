@@ -12,7 +12,7 @@
           <div class="title">Pizza</div>
           <div class="title">Remove from menu</div>
         </div>
-        <div class="table-item-row" v-for="(item,index) in menu" :key="index">
+        <div class="table-item-row" v-for="(item,index) in getMenuItems" :key="index">
           <div class="item">{{item.name}}</div>
           <button class="red-btn">&times;</button>
         </div>
@@ -58,14 +58,6 @@ export default {
   data() {
     return {
       name: "Ruben",
-      menu: [
-        {
-          name: "Marguerita"
-        },
-        {
-          name: "Pepperoni"
-        }
-      ],
       orders: [
         {
           id: 1,
@@ -102,6 +94,11 @@ export default {
     next(vm => {
       alert(`Hi, ${vm.name}`);
     });
+  },
+  computed: {
+    getMenuItems() {
+      return this.$store.state.menuItems;
+    }
   },
   methods: {
     async signOut() {
