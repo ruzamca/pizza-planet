@@ -9,7 +9,7 @@
         <div class="dish-option" v-for="(option, index) in item.options" :key="index">
           <div class="dish-size">{{option.size}}"</div>
           <div class="dish-add-wrapper">
-            <div class="dish-price">{{option.price}}€</div>
+            <div class="dish-price">{{option.price | currency}}</div>
             <button type="button" class="green-btn" @click="addToBasket(item, option)">+</button>
           </div>
         </div>
@@ -28,13 +28,13 @@
           <div class="item-info">
             <div class="item-name">{{item.name}} -</div>
             <div class="item-size">{{item.size}}" -</div>
-            <div class="item-price">{{(item.price * item.quantity).toFixed(2)}}€</div>
+            <div class="item-price">{{(item.price * item.quantity).toFixed(2) | currency}}</div>
           </div>
         </div>
         <div class="total-order">
           <div class="text">
             Total order:
-            <span>{{this.getTotalOrder()}}€</span>
+            <span>{{getTotalOrder | currency}}</span>
           </div>
           <button type="button" class="green-btn" @click="addNewOrder">Place order</button>
         </div>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { store } from "../store/store";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -56,7 +57,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getMenuItems"])
+    ...mapGetters(["getMenuItems"]),
+    getTotalOrder() {
+      let total = 0;
+      this.basket.map(item => {
+        total += item.quantity * item.price;
+      });
+      return total.toFixed(2);
+    }
   },
   methods: {
     async addToBasket(item, option) {
@@ -88,15 +96,13 @@ export default {
         this.removeFromBasket(item);
       }
     },
-    getTotalOrder() {
-      let total = 0;
-      for (let x = 0; x < this.basket.length; x++) {
-        total += this.basket[x].quantity * this.basket[x].price;
-      }
-      return total.toFixed(2);
-    },
     addNewOrder() {
-      this.$store.commit("addOrder", this.basket);
+      const order = {
+        pizzas: this.basket,
+        createdAt: new Date(),
+        state: "Created"
+      };
+      store.dispatch("addNewOrder", order);
       this.basket = [];
       this.basketText = "Thank you, your order has been placed";
     }

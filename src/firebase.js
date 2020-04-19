@@ -21,4 +21,6 @@ export const firebaseAuth = firebase.auth();
 
 export const dbMenuRef = db.collection('menu');
 
+export const dbOrdersRef = db.collection('orders');
+
 export const dbUsersRef = db.collection('users');

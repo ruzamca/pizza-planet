@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { dbMenuRef } from "../firebase";
+import { store } from "../store/store";
 
 export default {
   name: "newPizza",
@@ -58,7 +58,21 @@ export default {
   },
   methods: {
     add() {
-      dbMenuRef.add(this.newPizza);
+      store.dispatch("addMenuItem", this.newPizza);
+      this.newPizza = {
+        name: "",
+        description: "",
+        options: [
+          {
+            size: null,
+            price: null
+          },
+          {
+            size: null,
+            price: null
+          }
+        ]
+      };
     }
   }
 };

@@ -15,8 +15,23 @@ const getters = {
 
 const actions = {
   setMenuRef: firestoreAction(context => {
-    return context.bindFirestoreRef('menuItems', dbMenuRef)
-  })
+    return context.bindFirestoreRef('menuItems', dbMenuRef.orderBy('name'))
+  }),
+  addMenuItem: async (context, pizza) => {
+    try {
+      await dbMenuRef.add(pizza);
+    } catch (error) {
+      alert(`Error creating new pizza ${error}`)
+    }
+  },
+  removeMenuItem: async (context, id) => {
+    try {
+      const item = await dbMenuRef.doc(id)
+      item.delete()
+    } catch (error) {
+      alert(`Error removing item ${error}`)
+    }
+  }
 }
 
 export default {
