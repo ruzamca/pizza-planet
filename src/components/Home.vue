@@ -4,14 +4,19 @@
       <h2>Welcome to Pizza Planet!</h2>
       <img src="../assets/img/roller.png" alt="Roller" />
       <h3>Feeling hungry?</h3>
-      <button class="order-btn">Let's order!</button>
+      <button class="order-btn" @click="goToMenu">Let's order!</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: "Home"
+  name: "Home",
+  methods: {
+    goToMenu() {
+      this.$router.push({ name: "menuLink" });
+    }
+  }
 };
 </script>
 
@@ -44,11 +49,11 @@ export default {
     }
 
     .order-btn {
-        border-radius: 4px;
-        border: 0;
-        background: coral;
-        padding: 8px;
-        cursor: pointer;
+      border-radius: 4px;
+      border: 0;
+      background: coral;
+      padding: 8px;
+      cursor: pointer;
     }
   }
 }
@@ -76,7 +81,6 @@ export default {
     height: 30vw;
 
     .background-overlay {
-
       h2 {
         font-size: 18px;
       }

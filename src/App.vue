@@ -1,25 +1,17 @@
 <template>
   <div id="app">
     <app-header />
-    <Home />
-    <!-- <Menu /> -->
-    <Admin />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
-import Home from "@/components/Home.vue";
-// import Menu from "@/components/Menu.vue";
-import Admin from "@/components/Admin.vue";
 
 export default {
   name: "App",
   components: {
-    appHeader: Header,
-    Home,
-    // Menu,
-    Admin
+    appHeader: Header
   }
 };
 </script>
@@ -31,5 +23,21 @@ body {
   font-family: Roboto;
   color: #393939;
   margin: 0 auto;
+
+  nav {
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      list-style: none;
+      background-color: #f1e6da;
+      a {
+        text-decoration: none;
+        color: #393939;
+        margin: 0 8px;
+      }
+    }
+  }
 }
 </style>

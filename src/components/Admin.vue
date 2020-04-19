@@ -1,8 +1,8 @@
 <template>
   <div class="admin-wrapper">
     <div class="current-user-wrapper">
-        <div>Logged in as: </div>
-        <button type="button" class="btn-red" @click.prevent="signOut">Sign out</button>
+      <div>Logged in as:</div>
+      <button type="button" class="btn-red" @click.prevent="signOut">Sign out</button>
     </div>
     <NewPizza />
     <div class="menu-wrapper">
@@ -46,17 +46,18 @@
 </template>
 
 <script>
-import NewPizza from '@/components/NewPizza.vue';
-import Login from '@/components/Login.vue';
-import { firebaseAuth } from '../firebase.js';
+import NewPizza from "@/components/NewPizza.vue";
+import Login from "@/components/Login.vue";
+import { firebaseAuth } from "../firebase.js";
 export default {
   name: "admin",
   components: {
-      NewPizza,
-      Login
+    NewPizza,
+    Login
   },
   data() {
     return {
+      name: "Ruben",
       menu: [
         {
           name: "Marguerita"
@@ -97,15 +98,19 @@ export default {
       ]
     };
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      alert(`Hi, ${vm.name}`);
+    });
+  },
   methods: {
-      async signOut () {
-          try {
-              await firebaseAuth.signOut();
-          }
-          catch (error) {
-              alert(`Error signing out, ${error}`);
-          }
+    async signOut() {
+      try {
+        await firebaseAuth.signOut();
+      } catch (error) {
+        alert(`Error signing out, ${error}`);
       }
+    }
   }
 };
 </script>

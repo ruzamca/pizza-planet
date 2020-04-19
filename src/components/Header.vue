@@ -7,19 +7,29 @@
     <nav>
       <ul>
         <li>
-          <a href="/">Home</a>
+          <router-link :to="{name: 'homeLink'}">
+            <a>Home</a>
+          </router-link>
         </li>
         <span>|</span>
         <li>
-          <a href="/menu">Menu</a>
+          <router-link :to="{name: 'menuLink'}">
+            <a>Menu</a>
+          </router-link>
         </li>
         <span>|</span>
         <li>
-          <a href="/contact">Contact us</a>
+          <router-link :to="{name: 'contactLink'}">
+            <a>Contact</a>
+          </router-link>
+          <!-- <a href="/contact">Contact us</a> -->
         </li>
         <span>|</span>
         <li>
-          <a href="/about">About us</a>
+          <router-link :to="{name: 'aboutLink'}">
+            <a>About us</a>
+          </router-link>
+          <!-- <a href="/about">About us</a> -->
         </li>
       </ul>
     </nav>
@@ -27,7 +37,9 @@
 </template>
 
 <script lang="ts">
-export default {};
+export default {
+  name: 'appHeader'
+};
 </script>
 
 <style scoped lang="scss">
@@ -51,26 +63,6 @@ export default {};
 
   h1 {
     font-size: 1.3em;
-  }
-}
-
-nav {
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0;
-    li {
-      margin: 8px;
-      display: inline-block;
-      a {
-        text-decoration: none;
-        color: #393939;
-      }
-    }
-    span {
-      margin: 8px;
-    }
   }
 }
 
