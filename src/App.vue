@@ -12,11 +12,15 @@
 
 <script>
 import Header from "@/components/Header.vue";
+import { dbMenuRef } from "./firebase";
 
 export default {
   name: "App",
   components: {
     appHeader: Header
+  },
+  created() {
+    this.$store.dispatch("setMenuRef", dbMenuRef);
   }
 };
 </script>
@@ -90,7 +94,7 @@ body {
         .info-block-content {
           flex-direction: column;
           align-items: center;
-          p{
+          p {
             margin-right: 0;
           }
           img {

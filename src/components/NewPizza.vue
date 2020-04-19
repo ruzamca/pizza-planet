@@ -41,17 +41,16 @@ export default {
   data() {
     return {
       newPizza: {
-        name: "Eg. Margherita",
-        description:
-          "Eg. A delicious tomato based pizza topped with mozzarella",
+        name: "",
+        description: "",
         options: [
           {
-            size: 9,
-            price: 6.95
+            size: null,
+            price: null
           },
           {
-            size: 12,
-            price: 10.95
+            size: null,
+            price: null
           }
         ]
       }
