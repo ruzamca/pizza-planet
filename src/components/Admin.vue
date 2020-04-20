@@ -8,7 +8,7 @@
 <script>
 import Login from "@/components/Login.vue";
 import { mapGetters } from "vuex";
-const AdminContent = () => import("../components/adminContent");
+const AdminContent = () => import("../components/AdminContent");
 
 export default {
   name: "admin",
@@ -22,5 +22,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 </style>

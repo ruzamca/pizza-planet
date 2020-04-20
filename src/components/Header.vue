@@ -3,7 +3,12 @@
     <div class="header_logo">
       <img src="../assets/img/planet.png" alt="pizza logo" />
       <h1 href="/">PIZZA PLANET</h1>
+      <div class="header-basket">
+        <img src="../assets/img/cart.png" alt="carrito" @click="toogleBasketStatus" />
+        <div class="basket-quantity">{{getBasketQuantity}}</div>
+      </div>
     </div>
+    <Basket :active="basketActive" />
     <nav>
       <ul>
         <li>
@@ -36,9 +41,29 @@
   </header>
 </template>
 
-<script lang="ts">
+<script>
+import Basket from "./Basket";
+import { store } from "../store/store";
+import { mapGetters } from "vuex";
+
 export default {
-  name: "appHeader"
+  name: "appHeader",
+  data() {
+    return {
+      basketActive: false
+    };
+  },
+  components: {
+    Basket
+  },
+  computed: {
+    ...mapGetters(["getBasketQuantity"])
+  },
+  methods: {
+    toogleBasketStatus() {
+      store.dispatch("changeBasketStatus");
+    }
+  }
 };
 </script>
 
@@ -46,9 +71,9 @@ export default {
 .header_logo {
   background-image: linear-gradient(
     45deg,
-    #d85226 25%,
+    #f34e17 25%,
     #f79e38 25% 50%,
-    #d85226 50% 75%,
+    #f34e17 50% 75%,
     #f79e38 75%,
     #f79e38 100%
   );
@@ -63,6 +88,32 @@ export default {
 
   h1 {
     font-size: 1.3em;
+  }
+
+  .header-basket {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    img {
+      width: 32px;
+    }
+
+    .basket-quantity {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: white;
+      padding: 4px;
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+    }
   }
 }
 

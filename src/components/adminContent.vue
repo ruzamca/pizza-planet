@@ -111,7 +111,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .red-btn {
   background: rgb(211, 1, 1);
   color: white;
