@@ -91,7 +91,7 @@ export default {
   }
 
   .header-basket {
-    position: absolute;
+    position: fixed;
     top: 16px;
     right: 16px;
 
