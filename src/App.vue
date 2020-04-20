@@ -36,10 +36,11 @@ body {
 
   nav {
     ul {
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 0;
+      padding: 16px 0;
       list-style: none;
       background-color: #f1e6da;
       a {
